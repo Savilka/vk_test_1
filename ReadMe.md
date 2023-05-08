@@ -30,3 +30,6 @@ POST https://vk-test-1.vercel.app/api/getEvents \
   }
 }
 ```
+
+P.S. \
+Папка `api` и файл  `vercel.json` используется для только для деплоя приложения
