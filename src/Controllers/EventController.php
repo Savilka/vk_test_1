@@ -27,7 +27,7 @@ class EventController
             $params = [
                 ':name' => $queryData['name'],
                 ':status' => $queryData['status'],
-                ':user' => $request->getServerParams()['REMOTE_ADDR'],
+                ':user' => $request->getAttribute('ip_address'),
                 ':add_date' => date('Y-m-d H:i:s'),
             ];
             $stmt = $db->prepare('INSERT INTO events (name, status, "user", add_date) VALUES (:name, :status, :user, :add_date)');
