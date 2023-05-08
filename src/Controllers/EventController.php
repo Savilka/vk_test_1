@@ -83,7 +83,8 @@ class EventController
                         if ($complexQuery) $filterQuery .= 'AND ';
                         else $complexQuery = true;
 
-                        $filterQuery .= "$fieldName = :$fieldName ";
+                        if ($fieldName == 'user') $filterQuery .= "\"user\" = :$fieldName ";
+                        else $filterQuery .= "$fieldName = :$fieldName ";
                         $filterParams[":$fieldName"] = $fieldData;
                     }
                 }
@@ -105,7 +106,7 @@ class EventController
                 'GROUP BY "user", status ',
             default => 'SELECT * FROM events ' . ($useFilter ? $filterQuery : ''),
         };
-
+        var_dump($query);
         try {
             $db = Db::connect();
             $params = $filterParams;
