@@ -13,7 +13,7 @@ $dotenv->safeLoad();
 $app = AppFactory::create();
 $app->addBodyParsingMiddleware();
 $checkProxyHeaders = true;
-$trustedProxies = null;
+$trustedProxies = [];
 $headersToInspect = [
     'X-Real-IP',
     'Forwarded',
