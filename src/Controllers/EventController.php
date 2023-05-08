@@ -101,7 +101,7 @@ class EventController
                     (SELECT * FROM events ' . ($useFilter ? $filterQuery : '') . ') tmp ' .
                 'GROUP BY "user", name',
             3 => 'SELECT "user", status, COUNT(*) as count FROM 
-                    (SELECT * FROM events' . ($useFilter ? $filterQuery : '') . ') tmp ' .
+                    (SELECT * FROM events ' . ($useFilter ? $filterQuery : '') . ') tmp ' .
                 'GROUP BY "user", status ',
             default => 'SELECT * FROM events ' . ($useFilter ? $filterQuery : ''),
         };
@@ -119,7 +119,7 @@ class EventController
             }
         } catch (Exception $exception) {
             $response->getBody()->write('Error connecting to the database');
-            return $response->withStatus(500);
+            return $response->withStatus(222);
         }
     }
 }

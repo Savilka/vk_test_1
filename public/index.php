@@ -12,6 +12,8 @@ $dotenv->safeLoad();
 
 $app = AppFactory::create();
 $app->addBodyParsingMiddleware();
+
+//ip address checker
 $checkProxyHeaders = true;
 $trustedProxies = [];
 $headersToInspect = [
