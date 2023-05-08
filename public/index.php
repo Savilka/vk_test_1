@@ -13,8 +13,16 @@ $dotenv->safeLoad();
 $app = AppFactory::create();
 $app->addBodyParsingMiddleware();
 $checkProxyHeaders = true;
-$trustedProxies = ['10.0.0.1', '10.0.0.2'];
-$app->add(new IpAddress($checkProxyHeaders, $trustedProxies));
+$trustedProxies = null;
+$headersToInspect = [
+    'X-Real-IP',
+    'Forwarded',
+    'X-Forwarded-For',
+    'X-Forwarded',
+    'X-Cluster-Client-Ip',
+    'Client-Ip',
+];
+$app->add(new IpAddress($checkProxyHeaders, $trustedProxies, 'ip_address', $headersToInspect));
 
 $app->group('/api', function (RouteCollectorProxy $group) {
     $group->get('/addEvent', [EventController::class, 'addEvent']);
