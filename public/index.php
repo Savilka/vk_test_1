@@ -18,4 +18,6 @@ $app->group('/api', function (RouteCollectorProxy $group) {
     $group->post('/getEvents', [EventController::class, 'getEvents']);
 });
 
+$app->addErrorMiddleware(false, false, false);
+
 $app->run();
