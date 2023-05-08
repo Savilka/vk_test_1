@@ -106,7 +106,7 @@ class EventController
                 'GROUP BY "user", status ',
             default => 'SELECT * FROM events ' . ($useFilter ? $filterQuery : ''),
         };
-        var_dump($query);
+
         try {
             $db = Db::connect();
             $params = $filterParams;
