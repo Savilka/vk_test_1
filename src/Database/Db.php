@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Database;
-use Dotenv;
 use PDO;
 
 class Db

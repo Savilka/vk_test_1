@@ -38,7 +38,7 @@ class EventController
                 return $response->withStatus(500);
             }
         } catch (Exception $exception) {
-            $response->getBody()->write('Error connecting to the database');
+            $response->getBody()->write($exception->getMessage());
             return $response->withStatus(500);
         }
     }
