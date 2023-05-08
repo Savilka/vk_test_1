@@ -1,0 +1,192 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Набор API-методов для сохранения событий и получения статистики",
+    "description": "",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://petstore3.swagger.io/api/v3"
+    }
+  ],
+  "paths": {
+    "/addEvent": {
+      "get": {
+        "tags": [
+          "Event"
+        ],
+        "summary": "Добавить новое событие",
+        "description": "Добавляет новое событие в базу данных",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Название события",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "Статус пользователя",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Событие успешно добавлено"
+          },
+          "400": {
+            "description": "Не задано имя события или неверный статус"
+          },
+          "500": {
+            "description": "Ошибка базы данных"
+          }
+        }
+      }
+    },
+    "/getEvents": {
+      "post": {
+        "tags": [
+          "Event"
+        ],
+        "summary": "Фильтрация и получение агрегированной информации",
+        "description": "Фильтрация и получение агрегированной информации",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "filter": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "array",
+                        "items": {
+                          "type": "integer"
+                        }
+                      },
+                      "name": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "status": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "user": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "add_date_from": {
+                        "type": "string",
+                        "example": [
+                          "2023-05-06 07:49:11"
+                        ]
+                      },
+                      "add_date_to": {
+                        "type": "string",
+                        "example": [
+                          "2023-05-06 07:49:11"
+                        ]
+                      }
+                    }
+                  },
+                  "agr": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "integer",
+                        "description": "Принимаются значения от 1 до 3, в зависимости от нужной агрегации. При любом другом значении будет выбрана вся таблица"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Событие успешно добавлено"
+          },
+          "500": {
+            "description": "Ошибка базы данных"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "EventRequest": {
+        "type": "object",
+        "properties": {
+          "filter": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                }
+              },
+              "name": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "status": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "user": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "add_date_from": {
+                "type": "string",
+                "example": [
+                  "2023-05-06 07:49:11"
+                ]
+              },
+              "add_date_to": {
+                "type": "string",
+                "example": [
+                  "2023-05-06 07:49:11"
+                ]
+              }
+            }
+          },
+          "agr": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "integer",
+                "description": "Принимаются значения от 1 до 3, в зависимости от нужной агрегации. При любом другом значении будет выбрана вся таблица"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
