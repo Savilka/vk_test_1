@@ -54,7 +54,7 @@ class EventController
         if (isset($bodyData['filter'])) {
             $complexQuery = false;
             foreach ($bodyData['filter'] as $fieldName => $fieldData) {
-                if (in_array($fieldName, Event::getFields())) {
+                if (in_array($fieldName, Event::getFields()) || in_array($fieldName, Event::getFilterFields())) {
                     if ($fieldName == 'add_date_to' && is_string($fieldData)) {
                         if ($complexQuery) $filterQuery .= 'AND ';
                         else $complexQuery = true;
@@ -78,7 +78,8 @@ class EventController
                             $in .= ($in ? "," : "") . $key; // :id0,:id1,:id2
                             $filterParams[$key] = $item; // collecting values into a key-value array
                         }
-                        $filterQuery .= "$fieldName IN ($in) ";
+                        if ($fieldName == 'user') $filterQuery .= "\"user\" IN ($in) ";
+                        else $filterQuery .= "$fieldName IN ($in) ";
                     } elseif (!is_array($fieldData)) {
                         if ($complexQuery) $filterQuery .= 'AND ';
                         else $complexQuery = true;
@@ -106,7 +107,7 @@ class EventController
                 'GROUP BY "user", status ',
             default => 'SELECT * FROM events ' . ($useFilter ? $filterQuery : ''),
         };
-
+        var_dump($query);
         try {
             $db = Db::connect();
             $params = $filterParams;
