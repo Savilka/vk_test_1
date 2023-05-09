@@ -55,22 +55,17 @@ class EventController
             $complexQuery = false;
             foreach ($bodyData['filter'] as $fieldName => $fieldData) {
                 if (in_array($fieldName, Event::getFields()) || in_array($fieldName, Event::getFilterFields())) {
-                    if ($fieldName == 'add_date_to' && is_string($fieldData)) {
-                        if ($complexQuery) $filterQuery .= 'AND ';
-                        else $complexQuery = true;
+                    // Сложное условие
+                    if ($complexQuery) $filterQuery .= 'AND ';
+                    else $complexQuery = true;
 
+                    if ($fieldName == 'add_date_to' && is_string($fieldData)) {
                         $filterQuery .= 'add_date <= :add_date_to ';
                         $filterParams[':add_date_to'] = $fieldData;
                     } elseif ($fieldName == 'add_date_from' && is_string($fieldData)) {
-                        if ($complexQuery) $filterQuery .= 'AND ';
-                        else $complexQuery = true;
-
                         $filterQuery .= 'add_date >= :add_date_from ';
                         $filterParams[':add_date_from'] = $fieldData;
                     } elseif (is_array($fieldData) && !empty($fieldData)) {
-                        if ($complexQuery) $filterQuery .= 'AND ';
-                        else $complexQuery = true;
-
                         $in = "";
                         $i = 0;
                         foreach ($fieldData as $item) {
@@ -81,9 +76,6 @@ class EventController
                         if ($fieldName == 'user') $filterQuery .= "\"user\" IN ($in) ";
                         else $filterQuery .= "$fieldName IN ($in) ";
                     } elseif (!is_array($fieldData)) {
-                        if ($complexQuery) $filterQuery .= 'AND ';
-                        else $complexQuery = true;
-
                         if ($fieldName == 'user') $filterQuery .= "\"user\" = :$fieldName ";
                         else $filterQuery .= "$fieldName = :$fieldName ";
                         $filterParams[":$fieldName"] = $fieldData;
@@ -107,7 +99,7 @@ class EventController
                 'GROUP BY "user", status ',
             default => 'SELECT * FROM events ' . ($useFilter ? $filterQuery : ''),
         };
-        var_dump($query);
+
         try {
             $db = Db::connect();
             $params = $filterParams;
